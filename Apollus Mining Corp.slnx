@@ -1,0 +1,26 @@
+﻿<Solution>
+  <Project Path="Unity.ScriptableBuildPipeline.Editor.csproj" />
+  <Project Path="Unity.Cinemachine.Editor.csproj" />
+  <Project Path="Unity.Addressables.Editor.csproj" />
+  <Project Path="Unity.Splines.csproj" />
+  <Project Path="Unity.PerformanceTesting.Editor.csproj" />
+  <Project Path="Unity.Burst.csproj" />
+  <Project Path="Unity.VisualStudio.Editor.csproj" />
+  <Project Path="Unity.InputSystem.csproj" />
+  <Project Path="Unity.Searcher.Editor.csproj" />
+  <Project Path="Unity.ResourceManager.csproj" />
+  <Project Path="Unity.Cinemachine.csproj" />
+  <Project Path="Unity.Burst.CodeGen.csproj" />
+  <Project Path="Unity.Addressables.DocExampleCode.Editor.Tests.csproj" />
+  <Project Path="Unity.Splines.Editor.csproj" />
+  <Project Path="Unity.PerformanceTesting.csproj" />
+  <Project Path="Unity.Burst.Editor.csproj" />
+  <Project Path="Unity.AutoGroupGenerator.Editor.csproj" />
+  <Project Path="Unity.InputSystem.ForUI.csproj" />
+  <Project Path="Unity.Addressables.csproj" />
+  <Project Path="Unity.ScriptableBuildPipeline.csproj" />
+  <Project Path="Unity.Settings.Editor.csproj" />
+  <Project Path="Unity.InputSystem.TestFramework.csproj" />
+  <Project Path="Unity.Profiling.Core.csproj" />
+  <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />
+</Solution>
