@@ -154,6 +154,8 @@ namespace MarchingSquares
         }
 
 
+        public void Complete() => generationHandle.Complete();
+
         private void StartLoadingJob(bool updateNaturalField)
         {
             if (!generationHandle.IsCompleted) return;
