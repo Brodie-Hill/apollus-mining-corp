@@ -14,9 +14,9 @@
   <Project Path="Unity.Addressables.DocExampleCode.Editor.Tests.csproj" />
   <Project Path="Unity.Burst.CodeGen.csproj" />
   <Project Path="Unity.PerformanceTesting.csproj" />
-  <Project Path="MarchingSquares.csproj" />
   <Project Path="Unity.Burst.Editor.csproj" />
   <Project Path="Unity.AutoGroupGenerator.Editor.csproj" />
+  <Project Path="MarchingSquares.csproj" />
   <Project Path="Unity.Addressables.csproj" />
   <Project Path="Unity.Settings.Editor.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />

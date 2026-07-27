@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f212bd2c38369749a671cfaf80122c1, type: 3}
-  m_Name: TestSimplexShape
-  m_EditorClassIdentifier: MarchingSquares::TestSimplexShape
+  m_Script: {fileID: 11500000, guid: c906ba597ad30f946a2946d620f5cf00, type: 3}
+  m_Name: Constant Positive
+  m_EditorClassIdentifier: MarchingSquares::ConstantShape
   shapeEvaluator:
-    offset:
-      x: 0
-      y: 0
-    scaleFactor: 0.1
+    value: -1

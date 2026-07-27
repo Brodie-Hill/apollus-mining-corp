@@ -1,3 +1,4 @@
+using MarchingSquares.Util;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -12,12 +13,13 @@ namespace MarchingSquares
     {
         protected abstract T ShapeEvaluator { get; }
 
-        public override JobHandle GetValueBatch(GridData batch, NativeArray<float> results, JobHandle dependency = default)
+        public override JobHandle GetValueBatch(float2 worldOffset, GridData grid, NativeArray<float> results, JobHandle dependency = default)
         {
             var job = new ShapeEvaluatorJob<T>
             (
                 ShapeEvaluator,
-                batch,
+                worldOffset,
+                grid,
                 results
             );
 
@@ -26,8 +28,7 @@ namespace MarchingSquares
     }
     public abstract class ShapeDefinition : ScriptableObject
     {
-
-        public abstract JobHandle GetValueBatch(GridData batch, NativeArray<float> results, JobHandle dependency = default);
+        public abstract JobHandle GetValueBatch(float2 worldOffset, GridData grid, NativeArray<float> results, JobHandle dependency = default);
     }
 
     public interface IShapeEvaluator
@@ -36,33 +37,36 @@ namespace MarchingSquares
     }
 
     [BurstCompile(CompileSynchronously = true)]
-    public struct ShapeEvaluatorJob<T> : IJobParallelFor where T : struct, IShapeEvaluator
+    internal struct ShapeEvaluatorJob<T> : IJobParallelFor where T : struct, IShapeEvaluator
     {
         [ReadOnly]
         public T shapeEvaluator;
 
         [ReadOnly]
-        public GridData input;
+        public GridData inputGrid;
+
+        [ReadOnly]
+        public float2 worldOffset;
 
         [WriteOnly]
         public NativeArray<float> output;
 
 
-        public ShapeEvaluatorJob(T shapeEvaluator, GridData input, NativeArray<float> output)
+        public ShapeEvaluatorJob(T shapeEvaluator, float2 worldOffset, GridData grid, NativeArray<float> output)
         {
             this.shapeEvaluator = shapeEvaluator;
-            this.input = input;
+            this.inputGrid = grid;
+            this.worldOffset = worldOffset;
             this.output = output;
         }
 
         public void Execute(int index)
         {
-            int2 gridPos = input.FromIndex(index);
+            int2 coord = GridUtil.Index2Coord(inputGrid.Resolution, index);
 
-            float worldX = input.worldX + gridPos.x * input.stride;
-            float worldY = input.worldY + gridPos.y * input.stride;
+            float2 worldPoint = worldOffset + (float2)coord * inputGrid.Spacing;
 
-            output[index] = shapeEvaluator.Evaluate(worldX, worldY);
+            output[index] = shapeEvaluator.Evaluate(worldPoint.x, worldPoint.y);
         }
     }
 }

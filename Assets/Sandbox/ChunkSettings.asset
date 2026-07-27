@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df965f9910b1e24b9b4e3ae69c5b26a, type: 3}
+  m_Name: ChunkSettings
+  m_EditorClassIdentifier: MarchingSquares::MarchingSquares.ChunkSettings
+  <Cells>k__BackingField: 16
+  <ChunkSize>k__BackingField: 32
+  <ShapeSettings>k__BackingField: {fileID: 11400000, guid: 4afda984e1d6fda429692892d4378407, type: 2}
+  <GenerationSettings>k__BackingField:
+    <PerformSmoothing>k__BackingField: 1
+    <SurfaceLevel>k__BackingField: 0
