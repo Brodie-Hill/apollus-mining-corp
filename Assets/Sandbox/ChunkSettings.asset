@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: ChunkSettings
   m_EditorClassIdentifier: MarchingSquares::MarchingSquares.ChunkSettings
   <Cells>k__BackingField: 16
-  <ChunkSize>k__BackingField: 32
+  <ChunkSize>k__BackingField: 16
+  CellSize: 1
+  LineMat: {fileID: 2100000, guid: a0a1888de0e82e54d938de763586b71e, type: 2}
   <ShapeSettings>k__BackingField: {fileID: 11400000, guid: 4afda984e1d6fda429692892d4378407, type: 2}
   <GenerationSettings>k__BackingField:
     <PerformSmoothing>k__BackingField: 1

@@ -225,7 +225,8 @@ namespace MarchingSquares.Jobs
                 while (true)
                 {
                     // walk the path, disconnecting verts as we touch them as to not start walking same path from another vert
-                    PathOut.Points.Add(PointInfo.Vertices[pathI].Position);
+                    var f2 = new float2(PointInfo.Vertices[pathI].Position.xy);
+                    PathOut.Points.Add(f2);
                     if (TempCache.forwardConnections[pathI] == -1) break;
                     int newPathI = TempCache.forwardConnections[pathI];
                     TempCache.forwardConnections[pathI] = -1;

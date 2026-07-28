@@ -127,14 +127,14 @@ namespace MarchingSquares
 
     public struct PathBuffers : IDisposable
     {
-        public NativeList<float3> Points;
+        public NativeList<float2> Points;
         public NativeList<int> PathStarts;
 
         public int Count => PathStarts.Length;
 
         public PathBuffers(Allocator allocator = Allocator.TempJob)
         {
-            Points = new NativeList<float3>(allocator);
+            Points = new NativeList<float2>(allocator);
             PathStarts = new NativeList<int>(allocator);
         }
 

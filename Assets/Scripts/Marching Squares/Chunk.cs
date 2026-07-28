@@ -1,12 +1,11 @@
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using MarchingSquares.Util;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.Rendering;
 
 
@@ -55,6 +54,37 @@ namespace MarchingSquares
             }
         }
 
+        private struct EdgePath
+        {
+            public readonly LineRenderer line;
+            public readonly EdgeCollider2D collider;
+
+            public readonly GameObject gameObject;
+
+            public EdgePath(Vector2[] points, Transform parent)
+            {
+                gameObject = new GameObject("Edge Path");
+                collider = gameObject.AddComponent<EdgeCollider2D>();
+                line = gameObject.AddComponent<LineRenderer>();
+
+                gameObject.transform.SetParent(parent, false);
+
+                line.useWorldSpace = false;
+                line.widthMultiplier = 0.03f;
+
+                SetPoints(points);
+            }
+
+            public void SetPoints(Vector2[] points)
+            {
+                collider.points = points;
+                line.positionCount = points.Length;
+                for (int i = 0; i < line.positionCount; i++)
+                {
+                    line.SetPosition(i, (Vector3)points[i]);
+                }
+            }
+        }
 
         [field: SerializeField]
         public ChunkSettings Settings { get; private set; }
@@ -64,6 +94,8 @@ namespace MarchingSquares
         private ChunkData data;
         private JobHandle generationHandle;
         private SquareMarcher selfMarcher;
+        private List<EdgePath> edgePaths = new List<EdgePath>();
+        private int activeEdgePaths;
 
         public ChunkLoadState State { get; private set; }
         public bool IsDirty { get; private set; }
@@ -112,6 +144,9 @@ namespace MarchingSquares
                 if (generationHandle.IsCompleted)
                 {
                     ApplyMeshData();
+
+                    BuildPaths();
+
                     State = ChunkLoadState.Loaded;
                 }
             }
@@ -192,6 +227,64 @@ namespace MarchingSquares
                 Vector3.one * Settings.ChunkSize * 0.5f,
                 Vector3.one * Settings.ChunkSize
             );
+        }
+        private void BuildPaths()
+        {
+            ClearPaths();
+
+            // vec2 is blittable so its ok
+            var allPoints = data.pathData.Points.AsArray().Reinterpret<Vector2>();
+            int totalPaths = data.pathData.Count;
+
+            for (int i = 0; i < data.pathData.Count; i++)
+            {
+                int start = data.pathData.PathStarts[i];
+                // one past the end actually, but it works out in the math for length
+                int end = (i + 1 < totalPaths) ? data.pathData.PathStarts[i + 1] : allPoints.Length;
+
+                int length = end - start;
+                if (length < -0) continue;
+
+                // make lsit span over the sub data
+                var natList = allPoints.GetSubArray(start, length);
+                var managed = natList.ToArray();
+
+                AddPath(managed);
+            }
+        }
+
+        private void AddPath(Vector2[] points)
+        {
+            // if all existing ones active, make new one, otherwise recycle old one
+            if (activeEdgePaths == edgePaths.Count)
+            {
+                EdgePath path = new EdgePath(points, transform);
+
+                ++activeEdgePaths;
+                edgePaths.Add(path);
+                path.line.material = Settings.LineMat;
+                return;
+            }
+
+            edgePaths[activeEdgePaths].SetPoints(points);
+
+            edgePaths[activeEdgePaths].gameObject.SetActive(true);
+
+            ++activeEdgePaths;
+
+        }
+
+        /// <summary>
+        /// Doesnt actually remove colliders, just disables them so
+        /// they can be recycled when AddCollider() is called next.
+        /// </summary>
+        private void ClearPaths()
+        {
+            foreach (var path in edgePaths)
+            {
+                path.gameObject.SetActive(false);
+            }
+            activeEdgePaths = 0;
         }
 
         #region Tests

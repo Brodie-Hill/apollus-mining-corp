@@ -16,7 +16,10 @@ namespace MarchingSquares
         public float ChunkSize { get; private set; } = 10f;
 
         [field: SerializeFieldReadOnly]
-        private float CellSize;
+        public float CellSize;
+
+        [field: SerializeField]
+        public Material LineMat;
 
         [field: SerializeField]
         public ShapeDefinition ShapeSettings { get; private set; }
